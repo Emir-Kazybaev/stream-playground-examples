@@ -22,7 +22,8 @@ countries.stream().sorted(Comparator.comparingLong(Country::getPopulation)).limi
 countries.stream().mapToInt(country -> country.getTranslations().size()).summaryStatistics()
 
 //7.
-countries.stream().filter(country -> country.getName()).mapToInt().sorted(Comparator.comparing(Country::getTimezones.size())).forEach(System.out::println)
+
+countries.stream().sorted(Comparator.comparing(country -> country.getTimezones().size())).map(Country::getName).forEach(System.out::println);
 
 //8.
 countries.stream().sorted(Comparator.comparing(country -> country.getTimezones().size())).forEach(country -> System.out.println(country.getName() + ": " + country.getPopulation()))
@@ -37,11 +38,13 @@ countries.stream().filter(country -> country.getArea() == null).map(Country::get
 
 //11.---------------
 
-countries.stream().flatMap(country -> country.getTranslations()).distinct().forEach(System.out::println)
+countries.stream().flatMap(country -> country.getTranslations()).distinct().sorted().forEach(System.out::println)
 
 //12.
 
 countries.stream().mapToInt(country -> country.getName().length()).sum()/countries.stream().count()
+
+countries.stream().mapToInt(country -> country.getName().length()).sum()/(double)countries.stream().count()
 
 //13.
 
@@ -56,4 +59,3 @@ countries.stream().filter(country -> country.getArea() != null && country.getAre
 //16.
 
 countries.stream().filter(country -> country.getRegion() == Region.EUROPE || country.getRegion() == Region.ASIA).map(Country::getTimezones).distinct().forEach(System.out::println)
-
