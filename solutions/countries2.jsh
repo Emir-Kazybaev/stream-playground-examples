@@ -6,7 +6,7 @@ var countries = new Countries().getAll();
 countries.stream().anyMatch(country -> country.getName().toLowerCase().contains("island"))
 
 //2.
-countries.stream().filter(country -> country.getName().toLowerCase().contains("island")).findFirst()
+countries.stream().filter(country -> country.getName().toLowerCase().contains("island")).map(Country::getName).findFirst().get()
 
 //3.
 countries.stream().filter(country -> country.getName().toLowerCase().charAt(0) == country.getName().toLowerCase().charAt(country.getName().length()-1)).map(Country::getName).forEach(System.out::println)
@@ -29,7 +29,7 @@ countries.stream().sorted(Comparator.comparing(country -> country.getTimezones()
 countries.stream().sorted(Comparator.comparing(country -> country.getTimezones().size())).forEach(country -> System.out.println(country.getName() + ": " + country.getPopulation()))
 
 //9.
-countries.stream().filter(country -> !country.getTranslations().containsKey("es")).map(Country::getName).forEach(System.out::println)
+countries.stream().filter(country -> !country.getTranslations().containsKey("es")).map(Country::getName).count()
 
 
 //10.
@@ -55,7 +55,7 @@ countries.stream().filter(country -> country.getArea()==null).map(Country::getRe
 countries.stream().filter(country -> country.getArea() != null).max(Comparator.comparing(country ->country.getArea())).get()
 
 //15.
-countries.stream().filter(country -> country.getArea() != null && country.getArea().compareTo(BigDecimal.TEN)>0).map(Country::getName).forEach(System.out::println)
-//16.
+countries.stream().filter(country -> country.getArea() != null && country.getArea().compareTo(BigDecimal.TEN)<0).map(Country::getName).forEach(System.out::println)
 
-countries.stream().filter(country -> country.getRegion() == Region.EUROPE || country.getRegion() == Region.ASIA).map(Country::getTimezones).distinct().forEach(System.out::println)
+//16.
+countries.stream().filter(country -> country.getRegion() == Region.EUROPE || country.getRegion() == Region.ASIA).flatMap(country -> country.getTimezones().stream()).distinct().forEach(System.out::println)
